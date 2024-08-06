@@ -14,3 +14,11 @@ html {
     color: var(--clr-text);
     text-decoration: none;
 }
+.text:hover {
+    color: var(--clr-subtext);
+    text-decoration: underline;
+}
+.subtext {
+    color: var(--clr-subtext);
+    font-size: 0.8em;
+}
