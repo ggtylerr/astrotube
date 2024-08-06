@@ -1,0 +1,13 @@
+---
+import { Code } from "astro:components";
+
+interface Props {
+    data: any;
+}
+
+const { data } = Astro.props;
+---
+<details>
+    <summary>Debug Info</summary>
+    <Code code={JSON.stringify(data, null, 2)} lang="json"/>
+</details>

@@ -1,0 +1,25 @@
+<form action="/search" method="GET">
+    <input type="text" name="q" placeholder="Search..." />
+</form>
+
+<style>
+    form {
+        display: inline-block;
+        width: 25%;
+    }
+    input {
+        width: 100%;
+        border: 0;
+        border-bottom: 1px solid var(--clr-overlay);
+        background-color: var(--clr-surface);
+        color: var(--clr-text);
+        font-size: inherit;
+        padding: 0.5em;
+        padding-bottom: calc(0.5em - 1px);
+    }
+    input:focus {
+        outline: none;
+        border: 1px solid var(--clr-overlay);
+        padding: calc(0.5em - 1px);
+    }
+</style>

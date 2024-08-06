@@ -1,0 +1,16 @@
+html {
+    background-color: var(--clr-bg);
+    color: var(--clr-text);
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.link, .link:visited {
+    color: var(--clr-accent);
+}
+.link:hover {
+    color: var(--clr-accent2);
+}
+.text, .text:visited {
+    color: var(--clr-text);
+    text-decoration: none;
+}

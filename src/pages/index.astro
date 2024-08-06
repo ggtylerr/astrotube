@@ -1,0 +1,25 @@
+---
+import Standard from "../layouts/Standard.astro";
+import SearchBar from "../components/SearchBar.astro";
+---
+
+<Standard>
+	<div class="container">
+		<h1>Welcome to AstroTube!</h1>
+		<SearchBar />
+		<div>
+			<a href="/feed/popular" class="link">POPULAR</a>
+			<a href="/feed/trending" class="link">TRENDING</a>
+		</div>
+	</div>
+</Standard>
+<style>
+	.container {
+		padding: 12% 0;
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		align-items: center;
+		gap: 2em;
+	}
+</style>

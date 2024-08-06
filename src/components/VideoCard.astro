@@ -1,0 +1,46 @@
+---
+import { type VideoData } from "../types/video";
+import { domain } from "../config";
+
+interface Props {
+    data: VideoData;
+}
+
+const { data } = Astro.props;
+const lengthHrs = ~~(data.lengthSeconds / 3600);
+const lengthMins = ~~((data.lengthSeconds % 3600) / 60);
+const lengthSecs = data.lengthSeconds % 60;
+---
+
+<span class="container">
+    <div class="thumbnail">
+        <a href={`${domain}/watch?v=${data.videoId}`}>
+            <img src={data.videoThumbnails.find(t => t.quality === "medium")?.url} />
+        </a>
+        <p class="length">{`${(lengthHrs===0)?"":lengthHrs+":"}${(lengthMins)}:${lengthSecs}`}</p>
+    </div>
+    <b>{data.title}</b>
+</span>
+
+<style>
+    .container {
+        display: inline-block;
+        width: 20em;
+    }
+    .thumbnail {
+        position: relative;
+        box-sizing: border-box;
+    }
+    .thumbnail img {
+        border-radius: 5%;
+    }
+    .length {
+        background-color: var(--clr-surface);
+        padding: 0.2em;
+        margin: 0;
+        z-index: 100;
+        position: absolute;
+        bottom: 0.8em;
+        right: 0.6em;
+    }
+</style>
