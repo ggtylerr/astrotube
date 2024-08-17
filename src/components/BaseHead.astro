@@ -1,9 +1,57 @@
 ---
 import "../styles/colors.css";
 import "../styles/global.css";
+import Config, { type ConfigType } from "../config";
+
+let prefs: ConfigType = Config;
+const cookiePrefs = Astro.cookies.get('p');
+if (cookiePrefs) prefs = cookiePrefs.json();
 ---
+
 <meta charset="utf-8" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 <meta name="viewport" content="width=device-width" />
 <meta name="generator" content={Astro.generator} />
 <title>AstroTube</title>
+
+{prefs.theme === "light" && 
+<style>
+    * {
+        --clr-bg: var(--catpuccin-latte-base) !important;
+        --clr-text: var(--catpuccin-latte-text) !important;
+        --clr-subtext: var(--catpuccin-latte-subtext0) !important;
+        --clr-accent: var(--catpuccin-latte-blue) !important;
+        --clr-accent2: var(--catpuccin-latte-sky) !important;
+        --clr-overlay: var(--catpuccin-latte-overlay0) !important;
+        --clr-surface: var(--catpuccin-latte-surface0) !important;
+        --clr-red: var(--catpuccin-latte-red) !important;
+    }
+</style>}
+
+{prefs.theme === "frappe" && 
+<style>
+    * {
+        --clr-bg: var(--catpuccin-frappe-base) !important;
+        --clr-text: var(--catpuccin-frappe-text) !important;
+        --clr-subtext: var(--catpuccin-frappe-subtext0) !important;
+        --clr-accent: var(--catpuccin-frappe-blue) !important;
+        --clr-accent2: var(--catpuccin-frappe-sky) !important;
+        --clr-overlay: var(--catpuccin-frappe-overlay0) !important;
+        --clr-surface: var(--catpuccin-frappe-surface0) !important;
+        --clr-red: var(--catpuccin-frappe-red) !important;
+    }
+</style>}
+
+{prefs.theme === "macchi" && 
+<style>
+    * {
+        --clr-bg: var(--catpuccin-macchi-base) !important;
+        --clr-text: var(--catpuccin-macchi-text) !important;
+        --clr-subtext: var(--catpuccin-macchi-subtext0) !important;
+        --clr-accent: var(--catpuccin-macchi-blue) !important;
+        --clr-accent2: var(--catpuccin-macchi-sky) !important;
+        --clr-overlay: var(--catpuccin-macchi-overlay0) !important;
+        --clr-surface: var(--catpuccin-macchi-surface0) !important;
+        --clr-red: var(--catpuccin-macchi-red) !important;
+    }
+</style>}

@@ -1,4 +1,88 @@
 html {
+    /* Latte */
+    --catpuccin-latte-rosewater: #dc8a78;
+    --catpuccin-latte-flamingo: #dd7878;
+    --catpuccin-latte-pink: #ea76cb;
+    --catpuccin-latte-mauve: #8839ef;
+    --catpuccin-latte-red: #d20f39;
+    --catpuccin-latte-maroon: #e64553;
+    --catpuccin-latte-peach: #fe640b;
+    --catpuccin-latte-yellow: #df8e1d;
+    --catpuccin-latte-green: #40a02b;
+    --catpuccin-latte-teal: #179299;
+    --catpuccin-latte-sky: #04a5e5;
+    --catpuccin-latte-sapphire: #209fb5;
+    --catpuccin-latte-blue: #1e66f5;
+    --catpuccin-latte-lavender: #7287fd;
+    --catpuccin-latte-text: #4c4f69;
+    --catpuccin-latte-subtext1: #5c5f77;
+    --catpuccin-latte-subtext0: #6c6f85;
+    --catpuccin-latte-overlay2: #7c7f93;
+    --catpuccin-latte-overlay1: #8c8fa1;
+    --catpuccin-latte-overlay0: #9ca0b0;
+    --catpuccin-latte-surface2: #acb0be;
+    --catpuccin-latte-surface1: #bcc0cc;
+    --catpuccin-latte-surface0: #ccd0da;
+    --catpuccin-latte-base: #eff1f5;
+    --catpuccin-latte-mantle: #e6e9ef;
+    --catpuccin-latte-crust: #dce0e8;
+
+    /* Frappe */
+    --catpuccin-frappe-rosewater: #f2d5cf;
+    --catpuccin-frappe-flamingo: #eebebe;
+    --catpuccin-frappe-pink: #f4b8e4;
+    --catpuccin-frappe-mauve: #ca9ee6;
+    --catpuccin-frappe-red: #e78284;
+    --catpuccin-frappe-maroon: #ea999c;
+    --catpuccin-frappe-peach: #ef9f76;
+    --catpuccin-frappe-yellow: #e5c890;
+    --catpuccin-frappe-green: #a6d189;
+    --catpuccin-frappe-teal: #81c8be;
+    --catpuccin-frappe-sky: #99d1db;
+    --catpuccin-frappe-sapphire: #85c1dc;
+    --catpuccin-frappe-blue: #8caaee;
+    --catpuccin-frappe-lavender: #babbf1;
+    --catpuccin-frappe-text: #c6d0f5;
+    --catpuccin-frappe-subtext1: #b5bfe2;
+    --catpuccin-frappe-subtext0: #a5adce;
+    --catpuccin-frappe-overlay2: #949cbb;
+    --catpuccin-frappe-overlay1: #838ba7;
+    --catpuccin-frappe-overlay0: #737994;
+    --catpuccin-frappe-surface2: #626880;
+    --catpuccin-frappe-surface1: #51576d;
+    --catpuccin-frappe-surface0: #414559;
+    --catpuccin-frappe-base: #303446;
+    --catpuccin-frappe-mantle: #292c3c;
+    --catpuccin-frappe-crust: #232634;
+
+    /* Macchiato */
+    --catpuccin-macchi-rosewater: #f4dbd6;
+    --catpuccin-macchi-flamingo: #f0c6c6;
+    --catpuccin-macchi-pink: #f5bde6;
+    --catpuccin-macchi-mauve: #c6a0f6;
+    --catpuccin-macchi-red: #ed8796;
+    --catpuccin-macchi-maroon: #ee99a0;
+    --catpuccin-macchi-peach: #f5a97f;
+    --catpuccin-macchi-yellow: #eed49f;
+    --catpuccin-macchi-green: #a6da95;
+    --catpuccin-macchi-teal: #8bd5ca;
+    --catpuccin-macchi-sky: #91d7e3;
+    --catpuccin-macchi-sapphire: #7dc4e4;
+    --catpuccin-macchi-blue: #8aadf4;
+    --catpuccin-macchi-lavender: #b7bdf8;
+    --catpuccin-macchi-text: #cad3f5;
+    --catpuccin-macchi-subtext1: #b8c0e0;
+    --catpuccin-macchi-subtext0: #a5adcb;
+    --catpuccin-macchi-overlay2: #939ab7;
+    --catpuccin-macchi-overlay1: #8087a2;
+    --catpuccin-macchi-overlay0: #6e738d;
+    --catpuccin-macchi-surface2: #5b6078;
+    --catpuccin-macchi-surface1: #494d64;
+    --catpuccin-macchi-surface0: #363a4f;
+    --catpuccin-macchi-base: #24273a;
+    --catpuccin-macchi-mantle: #1e2030;
+    --catpuccin-macchi-crust: #181926;
+
     /* Mocha */
     --catpuccin-mocha-rosewater: #f5e0dc;
     --catpuccin-mocha-flamingo: #f2cdcd;
@@ -35,4 +119,5 @@ html {
     --clr-accent2: var(--catpuccin-mocha-sky);
     --clr-overlay: var(--catpuccin-mocha-overlay0);
     --clr-surface: var(--catpuccin-mocha-surface0);
+    --clr-red: var(--catpuccin-mocha-red);
 }

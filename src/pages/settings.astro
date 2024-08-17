@@ -1,0 +1,68 @@
+---
+import Standard from "../layouts/Standard.astro";
+import Config, { type ConfigType } from "../config";
+
+const errors = { instance: "", theme: "" };
+if (Astro.request.method === "POST") {
+  try {
+    const data = await Astro.request.formData();
+    let instance = data.get("instance");
+    let theme = data.get("theme");
+    // thx stackoverflow https://stackoverflow.com/a/3809435
+    const URLregex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
+    if (typeof instance !== "string" || !URLregex.test(instance)) {
+        errors.instance = "Instance is not a valid URL.";
+        instance = Config.invapi;
+    }
+    // TODO: test if instance is valid Invidious API and probably some other stuff
+    const themes = ["light","frappe","macchi","dark"];
+    if (typeof theme !== "string" || !themes.includes(theme)) {
+        errors.theme = "Theme is not valid.";
+        theme = Config.theme;
+    }
+    Astro.cookies.set("p", JSON.stringify({
+        invapi: instance,
+        theme: theme
+    }));
+  } catch (error) {
+    if (error instanceof Error) {
+      console.error(error.message);
+    }
+  }
+}
+let prefs: ConfigType = Config;
+const prevPrefs = Astro.cookies.get('p');
+if (prevPrefs) prefs = prevPrefs.json();
+---
+
+<Standard>
+    <p>
+        This uses cookies, and by saving, you agree to their use. They are only used on this one instance and they are
+        not used for anything other than basic preferences.
+    </p>
+    <form method="POST">
+        <label>
+            Instance: (include http(s), no trailing slash.)
+            <input type="text" name="instance" placeholder={Config.invapi} value={prefs.invapi} required />
+            {errors.instance && <span class="error">{errors.instance}</span>}
+        </label>
+        <label>
+            Theme:
+            <select name="theme">
+                <option value="light" selected={ prefs.theme === "light" }>Light (Latte)</option>
+                <option value="frappe" selected={ prefs.theme === "frappe" }>Frappé</option>
+                <option value="macchi" selected={ prefs.theme === "macchi" }>Macchiato</option>
+                <option value="dark" selected={ prefs.theme === "dark" }>Default Dark (Mocha)</option>
+                <!-- <option value="custom">Custom</option> --> <!-- will implement soon™ -->
+            </select>
+            {errors.theme && <span class="error">{errors.theme}</span>}
+        </label>
+        <button>Save</button>
+    </form>
+</Standard>
+<style>
+    label {
+        display: block;
+        padding: .5em 0;
+    }
+</style>

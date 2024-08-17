@@ -1,8 +1,12 @@
 ---
-import { invapi } from "../../config";
+import Config from "../config";
 import DebugInfo from "../components/DebugInfo.astro";
 import VideoCard from "../components/VideoCard.astro";
 import Standard from "../layouts/Standard.astro";
+
+let invapi = Config.invapi;
+const cookiePrefs = Astro.cookies.get('p');
+if (cookiePrefs) invapi = cookiePrefs.json().invapi;
 
 const vidId = Astro.url.searchParams.get("v") || "dQw4w9WgXcQ";
 const res = await fetch(`${invapi}/api/v1/videos/${vidId}`);

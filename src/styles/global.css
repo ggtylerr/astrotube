@@ -3,7 +3,6 @@ html {
     color: var(--clr-text);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
 }
-
 .link, .link:visited {
     color: var(--clr-accent);
 }
@@ -21,4 +20,52 @@ html {
 .subtext {
     color: var(--clr-subtext);
     font-size: 0.8em;
+}
+.error {
+    color: var(--clr-red);
+    font-weight: bold;
+}
+input[type='text'] {
+    border: 0;
+    border-bottom: 1px solid var(--clr-overlay);
+    background-color: var(--clr-surface);
+    color: var(--clr-text);
+    font-size: inherit;
+    padding: 0.5em;
+    padding-bottom: calc(0.5em - 1px);
+}
+input[type='text']:focus, input[type='text']:hover {
+    outline: none;
+    border: 1px solid var(--clr-overlay);
+    padding: calc(0.5em - 1px);
+}
+button {
+    background-color: var(--clr-surface);
+    border: none;
+    color: var(--clr-text);
+    display: block;
+    font-size: inherit;
+    padding: 0.5em 1em;
+}
+button:hover {
+    background-color: var(--clr-overlay);
+}
+select {
+    background-color: var(--clr-surface);
+    border: none;
+    color: var(--clr-text);
+    font-size: inherit;
+    padding: 0.5em;
+}
+select:hover {
+    border: 1px solid var(--clr-overlay);
+    padding: calc(0.5em - 1px);
+}
+.center {
+    padding: 1em;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1em;
 }

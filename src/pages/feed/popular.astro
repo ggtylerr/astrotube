@@ -1,14 +1,22 @@
 ---
-import { invapi } from "../../config";
+import Config from "../../config";
 import VideoCard from "../../components/VideoCard.astro";
 import Standard from "../../layouts/Standard.astro";
 import DebugInfo from "../../components/DebugInfo.astro";
+
+let invapi = Config.invapi;
+const cookiePrefs = Astro.cookies.get('p');
+if (cookiePrefs) invapi = cookiePrefs.json().invapi;
 
 const res = await fetch(`${invapi}/api/v1/popular`);
 const data = await res.json();
 ---
 
 <Standard>
+	<div class="center">
+		<a href="/feed/popular" class="link">POPULAR</a>
+		<a href="/feed/trending" class="link">TRENDING</a>
+	</div>
 	<div class="video-feed">
 		{data.map((v: any) => (
 			<VideoCard data={v} />

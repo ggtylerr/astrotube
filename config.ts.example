@@ -1,3 +1,2 @@
-export const invapi: String = "https://inv.tux.pizza";
+export const invapi: String = "https://iv.ggtyler.dev";
 export const theme: String = "dark";
-export const host: string = "http://localhost:4321";

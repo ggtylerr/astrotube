@@ -2,6 +2,10 @@
 // ../config.ts to exist for the script to function
 import * as hostConfig from "../config.ts";
 
-export let invapi: string = hostConfig.invapi ?? "https://iv.ggtyler.dev";
-export let theme: string = hostConfig.theme ?? "dark";
-export let domain: string = hostConfig.host ?? "http://localhost:4321";
+const config = {
+    invapi: (hostConfig.invapi ?? "https://iv.ggtyler.dev") as string,
+    theme: (hostConfig.theme ?? "dark") as string
+}
+
+export default config;
+export type ConfigType = typeof config;

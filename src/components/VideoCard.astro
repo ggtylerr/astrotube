@@ -1,6 +1,5 @@
 ---
 import { type VideoData, type VideoThumbnail } from "../types/video";
-import { domain } from "../config";
 
 interface Props {
     data: VideoData;
@@ -30,14 +29,14 @@ const timeSince = (timestamp: number) => {
 
 <span class="container">
     <div class="thumbnail">
-        <a href={`${domain}/watch?v=${data.videoId}`}>
+        <a href={`/watch?v=${data.videoId}`}>
             <img src={data.videoThumbnails.find((t: VideoThumbnail) => t.quality === "medium")?.url} />
         </a>
         <p class="length">{`${(lengthHrs===0)?"":lengthHrs+":"}${(lengthMins)}:${lengthSecs}`}</p>
     </div>
-    <a href={`${domain}/watch?v=${data.videoId}`} class="text"><b>{data.title}</b></a>
+    <a href={`/watch?v=${data.videoId}`} class="text"><b>{data.title}</b></a>
     <br/>
-    <a href={`${domain}/channel/${data.authorId}`} class="text">{data.author}</a>
+    <a href={`/channel/${data.authorId}`} class="text">{data.author}</a>
     <br/>
     <b class="subtext">Uploaded {timeSince(data.published)}</b>
 </span>
