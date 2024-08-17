@@ -1,0 +1,46 @@
+---
+import Config from "../../config";
+import DebugInfo from "../../components/DebugInfo.astro";
+import Standard from "../../layouts/Standard.astro";
+import VideoCard from "../../components/VideoCard.astro";
+import { type ChannelData } from "../../types/channel";
+
+const { slug: channelId } = Astro.params;
+let invapi = Config.invapi;
+const cookiePrefs = Astro.cookies.get('p');
+if (cookiePrefs) invapi = cookiePrefs.json().invapi;
+
+const res = await fetch(`${invapi}/api/v1/channels/${channelId}`);
+const data: ChannelData = await res.json();
+---
+
+<Standard>
+    <img src={data.authorBanners[0].url} class="banner" />
+    <img src={data.authorThumbnails[data.authorThumbnails.length-1].url} class="pfp" />
+    <h1>{data.author}</h1>
+    <p>{data.description}</p>
+    <hr/>
+    <div class="video-feed">
+        {data.latestVideos.map((vid) => (
+            <VideoCard data={vid} />
+        ))}
+    </div>
+    <DebugInfo data={data} />
+</Standard>
+<style>
+	.video-feed {
+		display: flex;
+		flex-wrap: wrap;
+		justify-content: space-evenly;
+		align-items: flex-start;
+		gap: 1em;
+	}
+    .pfp {
+        border-radius: 50%;
+        width: 100px;
+        height: 100px;
+    }
+    .banner {
+        max-width: 100%;
+    }
+</style>

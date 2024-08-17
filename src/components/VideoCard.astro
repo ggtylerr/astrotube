@@ -1,8 +1,9 @@
 ---
 import { type VideoData, type VideoThumbnail } from "../types/video";
+import { type VideoObject } from "../types/objects";
 
 interface Props {
-    data: VideoData;
+    data: VideoData | VideoObject;
 }
 
 const { data } = Astro.props;
