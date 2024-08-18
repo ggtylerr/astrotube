@@ -4,7 +4,8 @@ import * as hostConfig from "../config.ts";
 
 const config = {
     invapi: (hostConfig.invapi ?? "https://iv.ggtyler.dev") as string,
-    theme: (hostConfig.theme ?? "dark") as string
+    theme: (hostConfig.theme ?? "dark") as string,
+    full: (hostConfig.full ?? false) as boolean,
 }
 
 export default config;

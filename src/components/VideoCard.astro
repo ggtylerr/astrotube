@@ -1,6 +1,11 @@
 ---
 import { type VideoData, type VideoThumbnail } from "../types/video";
 import { type VideoObject } from "../types/objects";
+import Config from "../config";
+
+let full = Config.full;
+const cookiePrefs = Astro.cookies.get('p');
+if (cookiePrefs) full = cookiePrefs.json().full;
 
 interface Props {
     data: VideoData | VideoObject;
@@ -26,6 +31,16 @@ const timeSince = (timestamp: number) => {
     else if (secs === 31536000) return "1 year ago";
     else return `${~~(secs / 31536000)} years ago`;
 }
+const formatViews = (views: number) => {
+    if (full)
+        return views.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    else {
+        if (views >= 1e9) return (views / 1e9).toFixed(1) + "B";
+        else if (views >= 1e6) return (views / 1e6).toFixed(1) + "M";
+        else if (views >= 1e3) return (views / 1e3).toFixed(1) + "K";
+        else return views.toString();
+    }
+}
 ---
 
 <span class="container">
@@ -40,6 +55,8 @@ const timeSince = (timestamp: number) => {
     <a href={`/channel/${data.authorId}`} class="text">{data.author}</a>
     <br/>
     <b class="subtext">Uploaded {timeSince(data.published)}</b>
+    <br/>
+    <b class="subtext">{formatViews(data.viewCount)} views</b>
 </span>
 
 <style>

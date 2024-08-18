@@ -1,2 +1,3 @@
 export const invapi: String = "https://iv.ggtyler.dev";
 export const theme: String = "dark";
+export const full: Boolean = false;

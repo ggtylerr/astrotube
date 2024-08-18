@@ -39,6 +39,36 @@ input[type='text']:focus, input[type='text']:hover {
     border: 1px solid var(--clr-overlay);
     padding: calc(0.5em - 1px);
 }
+/* why are checkboxes so fucking hard to style???? */
+input[type='checkbox'] {
+    position: absolute;
+    opacity: 0;
+    cursor: pointer;
+}
+.checkmark {
+    height: 1.25em;
+    width: 1.25em;
+    background-color: var(--clr-surface);
+    display: inline-block;
+}
+input[type='checkbox']:checked + .checkmark {
+    background-color: var(--clr-accent);
+}
+.checkmark:after {
+    content: '';
+    position: relative;
+    display: none;
+    left: 0.45em;
+    top: 0.25em;
+    width: 0.25em;
+    height: 0.5em;
+    border: solid var(--clr-bg);
+    border-width: 0 2px 2px 0;
+    transform: rotate(45deg);
+}
+input[type='checkbox']:checked + .checkmark:after {
+    display: block;
+}
 button {
     background-color: var(--clr-surface);
     border: none;

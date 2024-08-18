@@ -9,6 +9,7 @@ if (Astro.request.method === "POST") {
     let instance = data.get("instance");
     let theme = data.get("theme");
     // thx stackoverflow https://stackoverflow.com/a/3809435
+    // TODO: add https if not present, also remove trailing slash
     const URLregex = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/gi;
     if (typeof instance !== "string" || !URLregex.test(instance)) {
         errors.instance = "Instance is not a valid URL.";
@@ -20,9 +21,11 @@ if (Astro.request.method === "POST") {
         errors.theme = "Theme is not valid.";
         theme = Config.theme;
     }
+    let full = data.get("full") === "on";
     Astro.cookies.set("p", JSON.stringify({
         invapi: instance,
-        theme: theme
+        theme: theme,
+        full: full
     }));
   } catch (error) {
     if (error instanceof Error) {
@@ -56,6 +59,11 @@ if (prevPrefs) prefs = prevPrefs.json();
                 <!-- <option value="custom">Custom</option> --> <!-- will implement soon™ -->
             </select>
             {errors.theme && <span class="error">{errors.theme}</span>}
+        </label>
+        <label>
+            Display full numbers:
+            <input type="checkbox" checked={ prefs.full } name="full" />
+            <span class="checkmark"></span>
         </label>
         <button>Save</button>
     </form>
