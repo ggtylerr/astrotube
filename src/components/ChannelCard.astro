@@ -1,0 +1,38 @@
+---
+import { type ChannelObject } from "../types/objects";
+import Config from "../config";
+
+let full = Config.full;
+const cookiePrefs = Astro.cookies.get('p');
+if (cookiePrefs) full = cookiePrefs.json().full;
+
+interface Props {
+    data: ChannelObject;
+}
+
+const { data } = Astro.props;
+---
+
+<span class="container">
+    <div class="thumbnail">
+        <a href=`/channel/${data.authorId}`>
+            <img src={data.authorThumbnails[0].url} />
+        </a>
+    </div>
+    <a href=`/channel/${data.authorId}` class="text">{data.author}</a>
+    <p>{data.subCount} subscribers</p>
+</span>
+
+<style>
+    .container {
+        display: inline-block;
+        width: 20em;
+    }
+    .thumbnail {
+        position: relative;
+        box-sizing: border-box;
+    }
+    .thumbnail img {
+        border-radius: 5%;
+    }
+</style>

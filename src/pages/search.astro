@@ -1,21 +1,23 @@
 ---
 import Config from "../config";
 import VideoCard from "../components/VideoCard.astro";
+import ChannelCard from "../components/ChannelCard.astro";
 import DebugInfo from "../components/DebugInfo.astro";
 import Standard from "../layouts/Standard.astro";
+import { type VideoObject, type ChannelObject } from "../types/objects"
 
 let invapi = Config.invapi;
 const cookiePrefs = Astro.cookies.get('p');
 if (cookiePrefs) invapi = cookiePrefs.json().invapi;
 
 const vidId = Astro.url.searchParams.get("q");
-const res = await fetch(`${invapi}/api/v1/search?q=${vidId}&type=video`);
+const res = await fetch(`${invapi}/api/v1/search?q=${vidId}`);
 const data = await res.json();
 ---
 <Standard>
     <div class="video-feed">
-		{data.map((v: any) => (
-			<VideoCard data={v} />
+		{data.map((v: VideoObject | ChannelObject ) => (
+			{...v}.type === "video" ? <VideoCard data={v as VideoObject} /> : <ChannelCard data={v as ChannelObject} />
 		))}
 	</div>
     <DebugInfo data={data} />

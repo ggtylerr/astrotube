@@ -1,0 +1,32 @@
+---
+import { type PlaylistData } from "../types/playlist";
+import Config from "../config";
+
+let full = Config.full;
+const cookiePrefs = Astro.cookies.get('p');
+if (cookiePrefs) full = cookiePrefs.json().full;
+
+interface Props {
+    data: PlaylistData;
+}
+
+const { data } = Astro.props;
+---
+
+<span class="container">
+    <p>TODO (this is a playlist)</p>
+</span>
+
+<style>
+    .container {
+        display: inline-block;
+        width: 20em;
+    }
+    .thumbnail {
+        position: relative;
+        box-sizing: border-box;
+    }
+    .thumbnail img {
+        border-radius: 5%;
+    }
+</style>
