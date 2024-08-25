@@ -25,18 +25,18 @@ const date = dateParam ? `&date=${dateParam}` : "";
 const durationParam = params.get("duration");
 const duration = durationParam ? `&duration=${durationParam}` : "";
 let features = "&features=";
-if (params.get("live")) features += "live,";
-if (params.get("4k")) features += "4k,";
-if (params.get("hd")) features += "hd,";
-if (params.get("subtitles")) features += "subtitles,";
-if (params.get("creative_commons")) features += "creative_commons,";
-if (params.get("360")) features += "360,";
-if (params.get("vr180")) features += "vr180,";
-if (params.get("3d")) features += "3d,";
-if (params.get("hdr")) features += "hdr,";
-if (params.get("location")) features += "location,";
-if (features === "&features=") features = features.slice(0,-1);
-else features = "";
+if (params.get("live") === "on") features += "live,";
+if (params.get("4k") === "on") features += "4k,";
+if (params.get("hd") === "on") features += "hd,";
+if (params.get("subtitles") === "on") features += "subtitles,";
+if (params.get("creative_commons") === "on") features += "creative_commons,";
+if (params.get("360") === "on") features += "360,";
+if (params.get("vr180") === "on") features += "vr180,";
+if (params.get("3d") === "on") features += "3d,";
+if (params.get("hdr") === "on") features += "hdr,";
+if (params.get("location") === "on") features += "location,";
+if (features === "&features=") features = "";
+else features = features.slice(0,-1);
 const res = await fetch(`${invapi}/api/v1/search?q=${query}&page=${page}&type=${type}&sort=${sort}${date}${duration}${features}`);
 const data = await res.json();
 ---
@@ -140,30 +140,33 @@ const data = await res.json();
 		<button>Apply</button>
 	</form>
 	<hr/>
-	<span class="flexrow">
-		<span>
-			{(page !== 1) && <a class="button" href=`/search?q=${query}&page=${page-1}`>&lt; Prev</a>}
+	{
+		data.length === 0 ? <p class="center">No results found. Try changing your search query or filters.</p> :
+		<span class="flexrow">
+			<span>
+				{(page !== 1) && <a class="button" href=`/search?q=${query}&page=${page-1}`>&lt; Prev</a>}
+			</span>
+			<span>
+				<a class="button" href=`/search?q=${query}&page=${page+1}`>Next &gt;</a>
+			</span>
 		</span>
-		<span>
-			<a class="button" href=`/search?q=${query}&page=${page+1}`>Next &gt;</a>
+		<div class="video-feed">
+			{data.map((v: VideoObject | ChannelObject | PlaylistData ) => (
+				{...v}.type === "video" ? <VideoCard data={v as VideoObject} /> : 
+				{...v}.type === "channel" ? <ChannelCard data={v as ChannelObject} /> : 
+				<PlaylistCard data={v as PlaylistData} />
+			))}
+		</div>
+		<span class="flexrow">
+			<span>
+				{(page !== 1) && <a class="button" href=`/search?q=${query}&page=${page-1}`>&lt; Prev</a>}
+			</span>
+			<span>
+				<a class="button" href=`/search?q=${query}&page=${page+1}`>Next &gt;</a>
+			</span>
 		</span>
-	</span>
-    <div class="video-feed">
-		{data.map((v: VideoObject | ChannelObject | PlaylistData ) => (
-			{...v}.type === "video" ? <VideoCard data={v as VideoObject} /> : 
-			{...v}.type === "channel" ? <ChannelCard data={v as ChannelObject} /> : 
-			<PlaylistCard data={v as PlaylistData} />
-		))}
-	</div>
-	<span class="flexrow">
-		<span>
-			{(page !== 1) && <a class="button" href=`/search?q=${query}&page=${page-1}`>&lt; Prev</a>}
-		</span>
-		<span>
-			<a class="button" href=`/search?q=${query}&page=${page+1}`>Next &gt;</a>
-		</span>
-	</span>
-    <DebugInfo data={data} />
+	}
+	<DebugInfo data={data} />
 </Standard>
 
 <style>
