@@ -22,10 +22,12 @@ if (Astro.request.method === "POST") {
         theme = Config.theme;
     }
     let full = data.get("full") === "on";
+    let lite = data.get("lite") === "on";
     Astro.cookies.set("p", JSON.stringify({
         invapi: instance,
         theme: theme,
-        full: full
+        full: full,
+        lite: lite
     }));
   } catch (error) {
     if (error instanceof Error) {
@@ -63,6 +65,11 @@ if (prevPrefs) prefs = prevPrefs.json();
         <label>
             Display full numbers:
             <input type="checkbox" checked={ prefs.full } name="full" />
+            <span class="checkmark"></span>
+        </label>
+        <label>
+            Lite mode: (uses lowest quality thumbnails to save data)
+            <input type="checkbox" checked={ prefs.lite } name="lite" />
             <span class="checkmark"></span>
         </label>
         <button>Save</button>

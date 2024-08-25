@@ -3,30 +3,53 @@ import { type ChannelObject } from "../types/objects";
 import Config from "../config";
 
 let full = Config.full;
+let lite = Config.lite;
 const cookiePrefs = Astro.cookies.get('p');
-if (cookiePrefs) full = cookiePrefs.json().full;
+if (cookiePrefs) {
+    full = cookiePrefs.json().full;
+    lite = cookiePrefs.json().lite;
+}
 
 interface Props {
     data: ChannelObject;
 }
 
 const { data } = Astro.props;
+
+const formatSubs = (subs: number) => {
+    if (full)
+        return subs.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    else {
+        if (subs >= 1e9) return (subs / 1e9).toFixed(1) + "B";
+        else if (subs >= 1e6) return (subs / 1e6).toFixed(1) + "M";
+        else if (subs >= 1e3) return (subs / 1e3).toFixed(1) + "K";
+        else return subs.toString();
+    }
+}
+
+const thumbnailIndex = (lite) ? 0 : data.authorThumbnails.length - 1;
 ---
 
 <span class="container">
     <div class="thumbnail">
         <a href=`/channel/${data.authorId}`>
-            <img src={data.authorThumbnails[0].url} />
+            <img src={data.authorThumbnails[thumbnailIndex].url} />
         </a>
     </div>
-    <a href=`/channel/${data.authorId}` class="text">{data.author}</a>
-    <p>{data.subCount} subscribers</p>
+    <a href=`/channel/${data.authorId}` class="text">{data.author}{data.authorVerified ? " ☑" : ""}</a>
+    <b class="subtext">{formatSubs(data.subCount)} subscribers</b>
 </span>
 
 <style>
     .container {
-        display: inline-block;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
         width: 20em;
+    }
+    .container * {
+        max-width: fit-content;
     }
     .thumbnail {
         position: relative;
@@ -34,5 +57,7 @@ const { data } = Astro.props;
     }
     .thumbnail img {
         border-radius: 5%;
+        height: 11em;
+
     }
 </style>

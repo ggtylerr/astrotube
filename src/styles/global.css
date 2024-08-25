@@ -2,6 +2,13 @@ html {
     background-color: var(--clr-bg);
     color: var(--clr-text);
     font-family: Verdana, Geneva, Tahoma, sans-serif;
+    margin: auto;
+    max-width: 75%;
+}
+@media (max-device-width: 1000px) {
+    html {
+        max-width: 100%;
+    }
 }
 .link, .link:visited {
     color: var(--clr-accent);
@@ -69,16 +76,19 @@ input[type='checkbox']:checked + .checkmark {
 input[type='checkbox']:checked + .checkmark:after {
     display: block;
 }
-button {
+button,.button {
     background-color: var(--clr-surface);
     border: none;
     color: var(--clr-text);
     display: block;
     font-size: inherit;
     padding: 0.5em 1em;
+    text-decoration: none;
+    font-weight: bold;
 }
-button:hover {
+button:hover, .button:hover {
     background-color: var(--clr-overlay);
+    cursor: pointer;
 }
 select {
     background-color: var(--clr-surface);
@@ -98,4 +108,17 @@ select:hover {
     justify-content: center;
     align-items: center;
     gap: 1em;
+}
+.flexrow {
+    display: flex;
+}
+.flexrow > *:first-child {
+    display: flex;
+    flex: 1 1 auto;
+    justify-content: flex-start;
+}
+.flexrow > *:last-child {
+    display: flex;
+    flex: 2 0 auto;
+    justify-content: flex-end;
 }

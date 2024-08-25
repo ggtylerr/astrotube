@@ -2,24 +2,167 @@
 import Config from "../config";
 import VideoCard from "../components/VideoCard.astro";
 import ChannelCard from "../components/ChannelCard.astro";
+import PlaylistCard from "../components/PlaylistCard.astro";
 import DebugInfo from "../components/DebugInfo.astro";
 import Standard from "../layouts/Standard.astro";
-import { type VideoObject, type ChannelObject } from "../types/objects"
+import { type VideoObject, type ChannelObject } from "../types/objects";
+import { type PlaylistData } from "../types/playlist";
 
+// config
 let invapi = Config.invapi;
 const cookiePrefs = Astro.cookies.get('p');
 if (cookiePrefs) invapi = cookiePrefs.json().invapi;
 
-const vidId = Astro.url.searchParams.get("q");
-const res = await fetch(`${invapi}/api/v1/search?q=${vidId}`);
+// params
+// TODO: somehow optimize this spaghetti
+const params = Astro.url.searchParams;
+const query = params.get("q"); // note: possibly a vuln but after testing it seems like astro already sanitizes
+const page = Number(params.get("page")) || 1;
+const type = params.get("type") || "all";
+const sort = params.get("sort") || "relevance";
+const dateParam = params.get("date");
+const date = dateParam ? `&date=${dateParam}` : "";
+const durationParam = params.get("duration");
+const duration = durationParam ? `&duration=${durationParam}` : "";
+let features = "&features=";
+if (params.get("live")) features += "live,";
+if (params.get("4k")) features += "4k,";
+if (params.get("hd")) features += "hd,";
+if (params.get("subtitles")) features += "subtitles,";
+if (params.get("creative_commons")) features += "creative_commons,";
+if (params.get("360")) features += "360,";
+if (params.get("vr180")) features += "vr180,";
+if (params.get("3d")) features += "3d,";
+if (params.get("hdr")) features += "hdr,";
+if (params.get("location")) features += "location,";
+if (features === "&features=") features = features.slice(0,-1);
+else features = "";
+const res = await fetch(`${invapi}/api/v1/search?q=${query}&page=${page}&type=${type}&sort=${sort}${date}${duration}${features}`);
 const data = await res.json();
 ---
-<Standard>
+
+<Standard searchQuery={query!}>
+	<form class="filters">
+		<label>
+			Upload date:
+			<!-- astro pls add select value like JSX has -->
+			<select name="date">
+				<option value="any" selected={dateParam === "any"}>Any date</option>
+				<option value="hour" selected={dateParam === "hour"}>Last hour</option>
+				<option value="today" selected={dateParam === "today"}>Today</option>
+				<option value="week" selected={dateParam === "week"}>This week</option>
+				<option value="month" selected={dateParam === "month"}>This month</option>
+				<option value="year" selected={dateParam === "year"}>This year</option>
+			</select>
+		</label>
+		<label>
+			Type:
+			<select name="type">
+				<option value="all" selected={type === "any"}>Any type</option>
+				<option value="video" selected={type === "video"}>Videos</option>
+				<option value="channel" selected={type === "channel"}>Channels</option>
+				<option value="playlist" selected={type === "playlist"}>Playlists</option>
+			</select>
+		</label>
+		<label>
+			Duration:
+			<select name="duration">
+				<option value="any" selected={durationParam === "any"}>Any duration</option>
+				<option value="short" selected={durationParam === "short"}>Short (&lt; 4 minutes)</option>
+				<option value="medium" selected={durationParam === "medium"}>Medium (4-20 minutes)</option>
+				<option value="long" selected={durationParam === "long"}>Long (&gt; 20 minutes)</option>
+			</select>
+		</label>
+		<details>
+			<summary>Features</summary>
+			<label>
+				Live
+				<input type="checkbox" name="live" checked={params.get("live")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				4K
+				<input type="checkbox" name="4k" checked={params.get("4k")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				HD
+				<input type="checkbox" name="hd" checked={params.get("hd")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				Subs / CC
+				<input type="checkbox" name="subtitles" checked={params.get("subtitles")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				Creative Commons
+				<input type="checkbox" name="creative_commons" checked={params.get("creative_commons")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				360°
+				<input type="checkbox" name="360" checked={params.get("360")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				VR180
+				<input type="checkbox" name="vr180" checked={params.get("vr180")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				3D
+				<input type="checkbox" name="3d" checked={params.get("3d")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				HDR
+				<input type="checkbox" name="hdr" checked={params.get("hdr")} />
+				<span class="checkmark"></span>
+			</label>
+			<label>
+				Location
+				<input type="checkbox" name="location" checked={params.get("location")} />
+				<span class="checkmark"></span>
+			</label>
+		</details>
+		<label>
+			Sort by:
+			<select name="sort">
+				<option value="relevance" selected={sort === "relevance"}>Relevance</option>
+				<option value="rating" selected={sort === "rating"}>Rating</option>
+				<option value="date" selected={sort === "date"}>Upload Date</option>
+				<option value="views" selected={sort === "views"}>View count</option>
+			</select>
+		</label>
+		<input style="display: none;" type="text" name="q" value={query}></input>
+		<input style="display: none;" type="text" name="page" value={page}></input>
+		<button>Apply</button>
+	</form>
+	<hr/>
+	<span class="flexrow">
+		<span>
+			{(page !== 1) && <a class="button" href=`/search?q=${query}&page=${page-1}`>&lt; Prev</a>}
+		</span>
+		<span>
+			<a class="button" href=`/search?q=${query}&page=${page+1}`>Next &gt;</a>
+		</span>
+	</span>
     <div class="video-feed">
-		{data.map((v: VideoObject | ChannelObject ) => (
-			{...v}.type === "video" ? <VideoCard data={v as VideoObject} /> : <ChannelCard data={v as ChannelObject} />
+		{data.map((v: VideoObject | ChannelObject | PlaylistData ) => (
+			{...v}.type === "video" ? <VideoCard data={v as VideoObject} /> : 
+			{...v}.type === "channel" ? <ChannelCard data={v as ChannelObject} /> : 
+			<PlaylistCard data={v as PlaylistData} />
 		))}
 	</div>
+	<span class="flexrow">
+		<span>
+			{(page !== 1) && <a class="button" href=`/search?q=${query}&page=${page-1}`>&lt; Prev</a>}
+		</span>
+		<span>
+			<a class="button" href=`/search?q=${query}&page=${page+1}`>Next &gt;</a>
+		</span>
+	</span>
     <DebugInfo data={data} />
 </Standard>
 
@@ -30,5 +173,21 @@ const data = await res.json();
 		justify-content: space-evenly;
 		align-items: flex-start;
 		gap: 1em;
+	}
+	.flexrow {
+		padding: 1em 0;
+	}
+	.filters {
+		display: flex;
+		justify-content: center;
+		gap: 1em;
+	}
+	details {
+		display: flex;
+		flex-direction: column;
+		padding-top: 0.5em;
+	}
+	form button {
+		height: 2.5em;
 	}
 </style>

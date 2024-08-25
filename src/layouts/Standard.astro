@@ -2,6 +2,11 @@
 import BaseHead from "../components/BaseHead.astro";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+
+interface Props {
+    searchQuery?: string
+}
+const { searchQuery = "" } = Astro.props;
 ---
 
 <html>
@@ -9,7 +14,7 @@ import Footer from "../components/Footer.astro";
         <BaseHead />
     </head>
     <body>
-        <Header />
+        <Header searchQuery={searchQuery} />
         <slot />
         <Footer />
     </body>

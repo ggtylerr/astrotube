@@ -1,34 +1,39 @@
 ---
-import { type VideoData, type VideoThumbnail } from "../types/video";
-import { type VideoObject } from "../types/objects";
+import { type VideoObject, type ThumbnailObject } from "../types/objects";
 import Config from "../config";
 
 let full = Config.full;
+let lite = Config.lite;
 const cookiePrefs = Astro.cookies.get('p');
-if (cookiePrefs) full = cookiePrefs.json().full;
+if (cookiePrefs) {
+    full = cookiePrefs.json().full;
+    lite = cookiePrefs.json().lite;
+}
 
 interface Props {
-    data: VideoData | VideoObject;
+    data: VideoObject;
 }
 
 const { data } = Astro.props;
 const lengthHrs = ~~(data.lengthSeconds / 3600);
-const lengthMins = ~~((data.lengthSeconds % 3600) / 60);
+let lengthMins = String(~~((data.lengthSeconds % 3600) / 60));
+if (lengthHrs > 0) lengthMins = String(lengthMins).padStart(2,'0');
 const lengthSecs = String(data.lengthSeconds % 60).padStart(2,'0');
 const timeSince = (timestamp: number) => {
     const now = Math.floor(Date.now() / 1000);
     const secs = now - timestamp;
-    if (secs === 1) return "1 second ago"; // i love edge cases
+    if (secs === 0) return "0 seconds ago????"; // i love edge cases
+    else if (secs === 1) return "1 second ago";
     else if (secs < 60) return `${secs} seconds ago`;
-    else if (secs === 60) return "1 minute ago";
+    else if (secs < 120) return "1 minute ago";
     else if (secs < 3600) return `${~~(secs / 60)} minutes ago`;
-    else if (secs === 3600) return "1 hour ago";
+    else if (secs < 7200) return "1 hour ago";
     else if (secs < 86400) return `${~~(secs / 3600)} hours ago`;
-    else if (secs === 86400) return "1 day ago";
+    else if (secs < 172800) return "1 day ago";
     else if (secs < 2629746) return `${~~(secs / 86400)} days ago`;
-    else if (secs === 2629746) return "1 month ago";
+    else if (secs < 5259492) return "1 month ago";
     else if (secs < 31536000) return `${~~(secs / 2629746)} months ago`;
-    else if (secs === 31536000) return "1 year ago";
+    else if (secs < 63072000) return "1 year ago";
     else return `${~~(secs / 31536000)} years ago`;
 }
 const formatViews = (views: number) => {
@@ -46,17 +51,27 @@ const formatViews = (views: number) => {
 <span class="container">
     <div class="thumbnail">
         <a href={`/watch?v=${data.videoId}`}>
-            <img src={data.videoThumbnails.find((t: VideoThumbnail) => t.quality === "medium")?.url} />
+            <img src={data.videoThumbnails.find((t: ThumbnailObject) => t.quality === (lite ? "default" : "medium"))?.url} />
         </a>
         <p class="length">{`${(lengthHrs===0)?"":lengthHrs+":"}${(lengthMins)}:${lengthSecs}`}</p>
     </div>
     <a href={`/watch?v=${data.videoId}`} class="text"><b>{data.title}</b></a>
     <br/>
-    <a href={`/channel/${data.authorId}`} class="text">{data.author}</a>
-    <br/>
-    <b class="subtext">Uploaded {timeSince(data.published)}</b>
-    <br/>
-    <b class="subtext">{formatViews(data.viewCount)} views</b>
+    <span class="flexrow">
+        <!-- TODO: make some actual icons maybe -->
+        <a href={`/channel/${data.authorId}`} class="text">{data.author}{data.authorVerified ? " ☑" : ""}</a>
+        <span>
+            <span class="icons">
+                <a class="text" href=`https://www.youtube.com/watch?v=${data.videoId}`>▷</a>
+                <a class="text" href=`/watch?v=${data.videoId}&listen=1`>🎝</a>
+                <a class="text" href=`https://redirect.invidious.io/watch?v=${data.videoId}`>🌐</a>
+            </span>
+        </span>
+    </span>
+    <span class="flexrow">
+        <b class="subtext">Uploaded {timeSince(data.published)}</b>
+        <b class="subtext">{formatViews(data.viewCount)} views</b>
+    </span>
 </span>
 
 <style>
@@ -65,10 +80,13 @@ const formatViews = (views: number) => {
         width: 20em;
     }
     .thumbnail {
+        display: block;
+        width: 100%;
         position: relative;
         box-sizing: border-box;
     }
     .thumbnail img {
+        width: 100%;
         border-radius: 5%;
     }
     .length {
@@ -79,5 +97,8 @@ const formatViews = (views: number) => {
         position: absolute;
         bottom: 0.8em;
         right: 0.6em;
+    }
+    .icons > *{
+        padding: 0 0.25em;
     }
 </style>
