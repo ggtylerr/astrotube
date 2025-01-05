@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-RUN npm install -g yarn
+RUN apk add --no-cache yarn
 
 COPY package.json yarn.lock ./
 
