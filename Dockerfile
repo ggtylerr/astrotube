@@ -4,9 +4,9 @@ WORKDIR /app
 
 RUN npm install yarn
 
-RUN yarn set version berry
-
 COPY package.json yarn.lock ./
+
+RUN yarn set version berry
 
 RUN yarn
 
