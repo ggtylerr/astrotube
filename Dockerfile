@@ -2,9 +2,11 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+RUN npm install -g yarn
 
 RUN yarn set version berry
+
+COPY package.json yarn.lock ./
 
 RUN yarn
 
