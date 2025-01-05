@@ -2,7 +2,7 @@ FROM node:22
 
 WORKDIR /app
 
-RUN npm install -g yarn
+RUN npm install yarn
 
 COPY package.json yarn.lock ./
 
