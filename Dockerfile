@@ -6,8 +6,6 @@ RUN npm install yarn
 
 COPY package.json yarn.lock ./
 
-COPY config.ts.example config.ts ./
-
 RUN corepack enable
 
 RUN yarn set version berry
