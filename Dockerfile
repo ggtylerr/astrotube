@@ -2,7 +2,7 @@ FROM node:22
 
 WORKDIR /app
 
-RUN apk add --no-cache yarn
+RUN npm install -g yarn
 
 COPY package.json yarn.lock ./
 
