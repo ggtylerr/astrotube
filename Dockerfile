@@ -6,6 +6,8 @@ RUN npm install yarn
 
 COPY package.json yarn.lock ./
 
+RUN corepack enable
+
 RUN yarn set version berry
 
 COPY . .
