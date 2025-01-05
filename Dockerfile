@@ -2,11 +2,9 @@ FROM node:22
 
 WORKDIR /app
 
-RUN npm install yarn
+RUN npm install -g yarn --force
 
 COPY package.json yarn.lock ./
-
-RUN corepack enable
 
 RUN yarn set version berry
 
