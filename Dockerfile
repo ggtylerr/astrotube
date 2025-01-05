@@ -1,17 +1,15 @@
-FROM node:18
+FROM node:18-alpine
 
 WORKDIR /app
 
-RUN npm install -g yarn@berry
-
 COPY package.json yarn.lock ./
 
-RUN yarn install
+RUN yarn set version berry
+
+RUN yarn
 
 COPY . .
 
 EXPOSE 4321
 
-RUN cp config.ts.example config.ts
-
-CMD ["yarn", "dev"]
+CMD [ "yarn", "dev" ]
