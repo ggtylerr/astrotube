@@ -2,7 +2,7 @@ FROM node:18-alpine
 
 WORKDIR /app
 
-RUN npm install -g yarn
+RUN npm install yarn
 
 RUN yarn set version berry
 
