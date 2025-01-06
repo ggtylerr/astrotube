@@ -4,15 +4,13 @@ WORKDIR /app
 
 RUN apk add --no-cache bash && corepack enable
 
-COPY package.json yarn.lock .yarnrc.yml ./
+COPY . .
 
 RUN sed -i '/^yarnPath:/d' .yarnrc.yml
 
 RUN corepack prepare yarn@4.4.0 --activate
 
 RUN yarn install --immutable
-
-COPY . .
 
 RUN cp config.ts.example config.ts
 
