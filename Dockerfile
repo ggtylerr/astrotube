@@ -6,8 +6,6 @@ WORKDIR /app
 
 COPY package.json yarn.lock ./
 
-RUN corepack prepare yarn@stable --activate
-
 RUN rm -rf node_modules **/node_modules
 RUN yarn cache clean
 
