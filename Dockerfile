@@ -4,8 +4,6 @@ RUN corepack enable
 
 WORKDIR /app
 
-COPY .yarn/ .yarn/
-COPY .yarnrc.yml .yarnrc.yml
 COPY package.json yarn.lock ./
 
 RUN corepack prepare yarn@stable --activate
