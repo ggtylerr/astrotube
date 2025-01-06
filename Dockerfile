@@ -1,7 +1,7 @@
 FROM node:22
 
 WORKDIR /usr/app
-COPY ./ /usr/app
+COPY ./ ./
 RUN npm install
 
 RUN yarn install
