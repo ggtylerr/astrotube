@@ -1,12 +1,10 @@
 FROM node:21-alpine3.19
 
-COPY yarn.lock package.json ./
+COPY ./ ./
 
 RUN yarn set version berry
 
 RUN yarn
-
-COPY ./ ./
 
 RUN cp config.ts.example config.ts
 
