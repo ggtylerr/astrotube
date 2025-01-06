@@ -2,6 +2,8 @@ FROM node:21-alpine3.19
 
 COPY ./ ./
 
+RUN npm install
+
 RUN yarn set version berry
 
 RUN yarn
