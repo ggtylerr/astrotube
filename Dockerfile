@@ -4,15 +4,17 @@ WORKDIR /app
 
 RUN apk add --no-cache bash
 
-RUN corepack enable && corepack prepare yarn@stable --activate
+RUN corepack enable
 
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock .yarnrc.yml ./
 
-RUN yarn install --immutable
+RUN yarn set version berry
 
 COPY . .
 
 RUN cp config.ts.example config.ts
+
+RUN yarn install --immutable
 
 EXPOSE 4321
 
