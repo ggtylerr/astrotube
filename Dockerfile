@@ -1,8 +1,12 @@
 FROM node:22-alpine
 
+WORKDIR /app
+
 COPY package.json yarn.lock .yarnrc.yml ./
 
-RUN apk add nodejs-current && corepack disable && npm -g install
+RUN apk add --no-cache bash
+
+RUN corepack enable
 
 RUN yarn set version berry
 
