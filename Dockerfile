@@ -1,8 +1,10 @@
-FROM node:21-alpine3.19
+FROM node:21
 
 COPY ./ ./
 
 RUN npm install
+
+RUN corepack prepare yarn@stable --activate
 
 RUN yarn set version berry
 
