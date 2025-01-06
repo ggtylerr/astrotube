@@ -1,14 +1,14 @@
 FROM node:22
 
-RUN npm install yarn -g --force
-
 COPY package.json yarn.lock
+
+RUN npm install yarn -g --force
 
 RUN yarn set version berry
 
 COPY . .
 
-RUN yarn install
+RUN yarn
 
 RUN cp config.ts.example config.ts
 
