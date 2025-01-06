@@ -1,12 +1,14 @@
-FROM node:21
+FROM alpine:3.20.0
 
-COPY ./ ./
+COPY package.json yarn.lock ./
 
-RUN corepack prepare yarn@stable --activate
+RUN apk add nodejs-current && corepack enable
 
 RUN yarn set version berry
 
 RUN yarn
+
+COPY . .
 
 RUN cp config.ts.example config.ts
 
