@@ -2,13 +2,13 @@ FROM node:22-alpine
 
 WORKDIR /app
 
+RUN apk add --no-cache bash && corepack enable
+
 COPY package.json yarn.lock .yarnrc.yml ./
 
-RUN apk add --no-cache bash
+RUN corepack prepare yarn@stable --activate
 
-RUN corepack enable
-
-RUN yarn set version berry
+RUN yarn install --immutable
 
 COPY . .
 
