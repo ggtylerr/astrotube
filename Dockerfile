@@ -1,7 +1,5 @@
 FROM node:21-alpine3.19
 
-WORKDIR /app
-
 RUN yarn set version berry
 
 COPY yarn.lock package.json ./
