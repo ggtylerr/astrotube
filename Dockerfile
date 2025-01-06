@@ -2,6 +2,8 @@ FROM node:21-alpine3.19
 
 WORKDIR /app
 
+RUN yarn set version berry
+
 COPY yarn.lock package.json ./
 
 RUN yarn install
@@ -12,4 +14,4 @@ RUN cp config.ts.example config.ts
 
 EXPOSE 4321
 
-CMD ["yarn", "dev"]
+CMD ["yarn", "dev", "--host", "0.0.0.0"]
