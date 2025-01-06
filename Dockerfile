@@ -4,7 +4,7 @@ WORKDIR /usr/app
 COPY ./ /usr/app
 RUN npm install
 
-RUN yarn
+RUN yarn install
 
 RUN cp config.ts.example config.ts
 
