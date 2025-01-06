@@ -4,7 +4,7 @@ WORKDIR /usr/app
 COPY ./ ./
 RUN npm install
 
-RUN yarn install
+RUN yarn set version berry
 
 RUN cp config.ts.example config.ts
 
