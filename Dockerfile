@@ -1,6 +1,6 @@
 FROM node:22
 
-RUN npm install yarn --force
+RUN npm install yarn
 
 COPY package.json yarn.lock ./
 
