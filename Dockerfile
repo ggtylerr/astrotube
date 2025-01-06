@@ -1,10 +1,12 @@
-FROM node:22
+FROM node:21-alpine3.19
 
-WORKDIR /usr/app
+WORKDIR /app
+
+COPY yarn.lock package.json ./
+
+RUN yarn install
+
 COPY ./ ./
-RUN npm install
-
-RUN yarn set version berry
 
 RUN cp config.ts.example config.ts
 
