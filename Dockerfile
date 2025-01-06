@@ -1,4 +1,4 @@
-FROM alpine:3.20.0
+FROM node:20-alpine
 
 COPY package.json yarn.lock ./
 
