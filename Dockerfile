@@ -1,10 +1,10 @@
 FROM node:21-alpine3.19
 
-RUN yarn set version berry
-
 COPY yarn.lock package.json ./
 
-RUN yarn install
+RUN yarn set version berry
+
+RUN yarn
 
 COPY ./ ./
 
