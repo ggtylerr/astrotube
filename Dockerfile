@@ -2,13 +2,13 @@ FROM node:22-alpine
 
 WORKDIR /app
 
-RUN apk add --no-cache bash curl
+RUN apk add --no-cache bash && corepack enable
 
-RUN corepack enable
+COPY package.json yarn.lock .yarnrc.yml ./
 
-RUN yarn set version berry
+RUN sed -i '/^yarnPath:/d' .yarnrc.yml
 
-COPY package.json yarn.lock ./
+RUN corepack prepare yarn@4.4.0 --activate
 
 RUN yarn install --immutable
 
