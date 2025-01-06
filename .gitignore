@@ -24,7 +24,3 @@ pnpm-debug.log*
 
 # Config
 /config.ts
-
-# Yarn install-state.gz
-.yarn/
-.yarn/install-state.gz
