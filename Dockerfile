@@ -6,8 +6,6 @@ RUN apk add nodejs-current && corepack enable
 
 RUN yarn set version berry
 
-RUN yarn
-
 COPY . .
 
 RUN cp config.ts.example config.ts
