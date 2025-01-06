@@ -1,6 +1,6 @@
 FROM node:22
 
-RUN corepack enable
+RUN npm install --global yarn
 
 WORKDIR /app
 
