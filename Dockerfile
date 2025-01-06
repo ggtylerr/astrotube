@@ -2,7 +2,7 @@ FROM node:22-alpine
 
 COPY package.json yarn.lock ./
 
-RUN apk add nodejs-current && corepack disable && npm install yarn --force
+RUN apk add nodejs-current && corepack disable && npm install yarn
 
 RUN yarn set version berry
 
