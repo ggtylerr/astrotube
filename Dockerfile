@@ -1,17 +1,23 @@
+# Use Node.js 22 as the base image
 FROM node:22
 
+# Set the working directory
 WORKDIR /app
 
-RUN npm install -g yarn --force
-
+# Copy the package and lock files
 COPY package.json yarn.lock ./
 
-RUN yarn set version berry
+# Set up Yarn with version Berry
+RUN yarn set version berry && yarn install
 
-RUN yarn install
-
+# Copy the rest of the project files
 COPY . .
 
+# Ensure the example config file is in place
+RUN cp config.ts.example config.ts
+
+# Expose the container's port
 EXPOSE 4321
 
-CMD [ "yarn", "dev" ]
+# Command to start the development server
+CMD ["yarn", "dev"]
