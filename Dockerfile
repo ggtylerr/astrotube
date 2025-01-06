@@ -4,11 +4,8 @@ RUN npm install yarn -g --force
 
 COPY package.json yarn.lock
 
-RUN corepack prepare yarn@stable --activate
-
-RUN yarn cache clean
-
-RUN yarn install --immutable
+RUN yarn set version berry
+RUN yarn install
 
 COPY . .
 
