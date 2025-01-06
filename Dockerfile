@@ -1,8 +1,8 @@
 FROM node:22
 
-RUN npm install yarn
-
-COPY package.json yarn.lock ./
+WORKDIR /usr/app
+COPY ./ /usr/app
+RUN npm install
 
 RUN yarn set version berry
 
