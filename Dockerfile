@@ -1,8 +1,8 @@
 FROM node:22
 
-COPY package.json yarn.lock
-
 RUN npm install yarn -g --force
+
+COPY package.json yarn.lock .yarnrc.yml
 
 RUN yarn set version berry
 
