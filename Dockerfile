@@ -4,9 +4,11 @@ WORKDIR /app
 
 RUN apk add --no-cache bash curl
 
-RUN corepack enable && corepack prepare yarn@4.4.0 --activate
+RUN corepack enable
 
-COPY package.json yarn.lock .yarnrc.yml ./
+RUN yarn set version berry
+
+COPY package.json yarn.lock ./
 
 RUN yarn install --immutable
 
