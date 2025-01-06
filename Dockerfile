@@ -1,10 +1,11 @@
 FROM node:22
 
-RUN npm install --global yarn
+RUN npm install yarn -g --force
+RUN yarn --c
 
 WORKDIR /app
 
-COPY package.json yarn.lock ./
+COPY package.json yarn.lock
 
 RUN corepack prepare yarn@stable --activate
 
