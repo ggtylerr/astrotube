@@ -2,7 +2,7 @@ FROM node:22
 
 RUN npm install yarn -g --force
 
-COPY . .
+COPY package.json yarn.lock .yarnrc.yml .
 
 RUN yarn set version berry
 
