@@ -8,11 +8,11 @@ COPY . .
 
 RUN sed -i '/^yarnPath:/d' .yarnrc.yml
 
-RUN corepack prepare yarn@4.4.0 --activate
+RUN corepack prepare yarn@berry --activate
 
 RUN yarn install --immutable
 
-RUN cp config.ts.example config.ts
+RUN [ ! -f config.ts ] && cp config.ts.example config.ts
 
 EXPOSE 4321
 
