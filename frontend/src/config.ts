@@ -1,6 +1,6 @@
 // TODO: Figure out if there's a way to not require 
-// ../config.ts to exist for the script to function
-import * as hostConfig from "../config.ts";
+// ../../config.ts to exist for the script to function
+import * as hostConfig from "../../config.js";
 
 const config = {
     invapi: (hostConfig.invapi ?? "https://iv.ggtyler.dev") as string,

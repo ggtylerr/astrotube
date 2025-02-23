@@ -4,7 +4,7 @@ dist/
 .astro/
 
 # dependencies
-node_modules/
+node_modules
 
 # logs
 npm-debug.log*
@@ -19,8 +19,9 @@ pnpm-debug.log*
 # macOS-specific files
 .DS_Store
 
-# jetbrains setting folder
+# ide settings
 .idea/
+.vscode/
 
 # Config
 /config.ts

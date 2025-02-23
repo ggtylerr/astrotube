@@ -1,0 +1,7 @@
+### GET regular channel data
+GET http://localhost:4949/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ
+Accept: application/json
+
+###
+GET https://nyc1.iv.ggtyler.dev/api/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ
+Accept: application/json

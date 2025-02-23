@@ -1,0 +1,20 @@
+{
+  "name": "backend",
+  "packageManager": "yarn@4.6.0",
+  "scripts": {
+    "start": "esrun src/main.ts"
+  },
+  "dependencies": {
+    "bgutils-js": "^3.1.2",
+    "esrun": "^3.2.26",
+    "jsdom": "^26.0.0",
+    "typescript": "^5.7.2",
+    "uWebSockets.js": "git://github.com/uNetworking/uWebSockets.js.git#v20.51.0",
+    "youtubei.js": "^13.1.0"
+  },
+  "devDependencies": {
+    "@types/jsdom": "^21.1.7",
+    "@types/node": "^22.10.5",
+    "@types/uws": "^0.13.6"
+  }
+}

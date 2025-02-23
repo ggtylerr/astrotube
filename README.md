@@ -1,14 +1,32 @@
 # AstroTube
 
-A proof of concept YouTube frontend made in Astro, utilizing Invidious API. Still very much a WIP.
+A proof of concept YouTube frontend made in Astro, utilizing an API compatible with [Invidious.](https://invidious.io) Still very much a WIP.
 
-Run the following to start:
+## Bare metal setup
 ```sh
 git clone https://github.com/ggtylerr/astrotube
 cd astrotube
 yarn set version berry
-yarn
+
 cp config.ts.example config.ts
-yarn dev
+# configure config.ts to your liking
+
+cd frontend && yarn
+cd ../backend && yarn
 ```
-Then go to `localhost:4321` on your browser to view.
+
+To run the frontend, run `yarn dev` or `yarn build && yarn preview` in the frontend directory.
+
+To run the backend, run `yarn start` in the backend directory.
+
+## Docker setup
+```sh
+git clone https://github.com/ggtylerr/astrotube
+cd astrotube
+
+cp config.ts.example config.ts
+# configure config.ts to your liking
+
+docker compose build
+docker compose up -d
+```
