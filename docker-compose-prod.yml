@@ -1,0 +1,18 @@
+services:
+  frontend:
+    image: ghcr.io/ggtylerr/astrotube:frontend-stable
+    # Comment the above and uncomment the below to use the latest image. Beware of bugs!
+    # image: ghcr.io/ggtylerr/astrotube:frontend-latest
+    restart: unless-stopped
+    ports:
+      - "4321:4321"
+    volumes:
+      - ./config.ts:/app/config.ts
+  backend:
+    image: ghcr.io/ggtylerr/astrotube:backend-stable
+    # image: ghcr.io/ggtylerr/astrotube:backend-latest
+    restart: unless-stopped
+    ports:
+      - "4949:4949"
+    volumes:
+      - ./config.ts:/app/config.ts

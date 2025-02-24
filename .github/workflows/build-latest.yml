@@ -1,0 +1,70 @@
+name: Build and release latest
+on:
+  push:
+    branches:
+      - "*"
+    paths-ignore:
+      - "README.md"
+      - "LICENSE"
+      - ".git*"
+      - "docker-compose-prod.yml"
+      - "docker-compose-dev.yml"
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Docker BuildX
+        uses: docker/setup-buildx-action@v3
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.repository_owner }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Metadata (Frontend)
+        id: meta-frontend
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          flavor:
+            prefix=frontend-
+          tags: |
+            type=raw,value=latest
+            type=ref,event=branch
+            type=sha,prefix=frontend-
+
+      - name: Metadata (Backend)
+        id: meta-backend
+        uses: docker/metadata-action@v5
+        with:
+          images: ghcr.io/${{ github.repository }}
+          flavor:
+            prefix=backend-
+          tags: |
+            type=raw,value=latest
+            type=ref,event=branch
+            type=sha,prefix=backend-
+
+      - name: Build and push (Frontend)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          target: frontend
+          push: true
+          tags: ${{ steps.meta-frontend.outputs.tags }}
+
+      - name: Build and push (Backend)
+        uses: docker/build-push-action@v5
+        with:
+          context: .
+          file: Dockerfile
+          target: backend
+          push: true
+          tags: ${{ steps.meta-backend.outputs.tags }}
