@@ -8,11 +8,23 @@ import {
     formatNum,
     obj
 } from "../../lib/output";
+import { debug } from "../../lib/log";
 import type {AuthorStub} from "output";
 
 export default async (path: string[]) => {
     if (path.length < 3) {
         return error("Invalid request, please provide a channel ID");
+    }
+    if (path.length === 4) {
+        switch (path[3]) {
+            case "channels":
+                return getChannels(path);
+            default:
+                return error("Invalid request, unknown argument");
+        }
+    }
+    if (path.length > 4) {
+        return error("Invalid request, too many arguments.");
     }
     try {
         const channel: YT.Channel = await global.client.getChannel(path[2]);
@@ -101,3 +113,23 @@ export default async (path: string[]) => {
         return error(e.message);
     }
 };
+
+export async function getChannels(path: string[]) {
+    if (path.length < 3) {
+        return error("Invalid request, please provide a channel ID");
+    }
+    try {
+        const channel: YT.Channel = await global.client.getChannel(path[2]);
+        const relatedChannels = [];
+        for (let related of channel.channels) {
+            relatedChannels.push(channelRelated(related));
+        }
+        // TODO: Continuation token?
+        // (Pretty sure this isn't needed on yt.js)
+        return obj({
+            relatedChannels
+        });
+    } catch (e) {
+        return error(e.message);
+    }
+}

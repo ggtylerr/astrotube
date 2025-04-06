@@ -154,7 +154,7 @@ export function channelVideo(video: YTNodes.Video | YTNodes.CompactVideo |
         return {
             type: "video",
             title: video.title,
-            videoId: video.id,
+            videoId: video.video_id,
             author: author.name,
             authorId: author.id,
             authorUrl: author.url,

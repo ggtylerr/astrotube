@@ -409,7 +409,7 @@ __metadata:
     jsdom: "npm:^26.0.0"
     typescript: "npm:^5.7.2"
     uWebSockets.js: "git://github.com/uNetworking/uWebSockets.js.git#v20.51.0"
-    youtubei.js: "npm:^13.1.0"
+    youtubei.js: "npm:^13.3.0"
   languageName: unknown
   linkType: soft
 
@@ -953,12 +953,12 @@ __metadata:
   languageName: node
   linkType: hard
 
-"jintr@npm:^3.2.1":
-  version: 3.2.1
-  resolution: "jintr@npm:3.2.1"
+"jintr@npm:^3.3.0":
+  version: 3.3.0
+  resolution: "jintr@npm:3.3.0"
   dependencies:
     acorn: "npm:^8.8.0"
-  checksum: 10c0/4c07da2d76e70277deda3a416a3911d7fca8d450d6de3fb685369adfb2e40da3bbe3f2226f61110a30f06850a02a1e22a3c3cd2ed1c9d444a26bc806caecea32
+  checksum: 10c0/88a62d4748c85fddb8bb4284066fcaeb77c4ecfa9bd3f93ccdcc2ebc2e701e86d2c8d1a079026044b0aca8be451c121da4c95b494bfbaf8540ef9128fa2d1f0b
   languageName: node
   linkType: hard
 
@@ -1706,14 +1706,14 @@ __metadata:
   languageName: node
   linkType: hard
 
-"youtubei.js@npm:^13.1.0":
-  version: 13.1.0
-  resolution: "youtubei.js@npm:13.1.0"
+"youtubei.js@npm:^13.3.0":
+  version: 13.3.0
+  resolution: "youtubei.js@npm:13.3.0"
   dependencies:
     "@bufbuild/protobuf": "npm:^2.0.0"
-    jintr: "npm:^3.2.1"
+    jintr: "npm:^3.3.0"
     tslib: "npm:^2.5.0"
     undici: "npm:^5.19.1"
-  checksum: 10c0/c57715eadf2bff88347601763400ce64a21926b8bcbea12317b5d22f43b84041d46e74b9387d4b0d4312f56c7ce348497ac8cc3ae124f0b2fedf20a09a409d19
+  checksum: 10c0/5611fcc2400549f3d75cee0f6afbcaacc3759532814943db76d9b8fc8f18ab380c7fa71088b965bf53a065062d9bb4fec66457bec585da45a97685c8cebd5dc9
   languageName: node
   linkType: hard

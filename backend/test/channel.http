@@ -2,6 +2,15 @@
 GET http://localhost:4949/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ
 Accept: application/json
 
-###
+### GET regular channel data (invidious)
 GET https://nyc1.iv.ggtyler.dev/api/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ
+Accept: application/json
+
+
+### GET related channels
+GET http://localhost:4949/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ/channels
+Accept: application/json
+
+### GET related channels (invidious)
+GET https://nyc1.iv.ggtyler.dev/api/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ/channels
 Accept: application/json

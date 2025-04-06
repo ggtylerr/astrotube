@@ -10,7 +10,7 @@
     "jsdom": "^26.0.0",
     "typescript": "^5.7.2",
     "uWebSockets.js": "git://github.com/uNetworking/uWebSockets.js.git#v20.51.0",
-    "youtubei.js": "^13.1.0"
+    "youtubei.js": "^13.3.0"
   },
   "devDependencies": {
     "@types/jsdom": "^21.1.7",
