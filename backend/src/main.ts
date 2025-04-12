@@ -39,6 +39,6 @@ uWS.App().get('/*', async (res, req) => {
     if (token) {
         log('Listening on port 4949');
     } else {
-        log('Failed to listen to port 4949 - check if it is already in use.');
+        error('Failed to listen to port 4949 - check if it is already in use.');
     }
 });

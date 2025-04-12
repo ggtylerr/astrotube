@@ -151,6 +151,8 @@ export function channelVideo(video: YTNodes.Video | YTNodes.CompactVideo |
                 is_verified: video.author.is_verified
             }
         }
+        let views = video.view_count ? video.view_count.toString() : "0";
+        let viewsText = video.view_count ? video.view_count.toHTML() : "0 views";
         return {
             type: "video",
             title: video.title,
@@ -162,8 +164,8 @@ export function channelVideo(video: YTNodes.Video | YTNodes.CompactVideo |
             videoThumbnails: video.thumbnails,
             description: video.description,
             descriptionHtml: formatHtml(video.description), // unsupported properly
-            viewCount: formatNum(video.view_count.toString()),
-            viewCountText: video.view_count.toHTML(),
+            viewCount: views,
+            viewCountText: viewsText,
             published: formatLength(video.published.toString()),
             publishedText: video.published.toHTML(),
             lengthSeconds: video.duration.seconds,
