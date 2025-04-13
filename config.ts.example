@@ -1,4 +1,7 @@
-export const invapi: String = "https://iv.ggtyler.dev";
+/* Frontend */
+export const invapi: String = "https://nyc1.iv.ggtyler.dev";
 export const theme: String = "dark";
 export const full: Boolean = false;
 export const lite: Boolean = false;
+
+/* Backend */

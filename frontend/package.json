@@ -12,7 +12,8 @@
   "dependencies": {
     "@astrojs/check": "^0.9.1",
     "astro": "^4.13.1",
-    "typescript": "^5.5.4"
+    "typescript": "^5.5.4",
+    "youtubei.js": "^12.2.0"
   },
-  "packageManager": "yarn@4.4.0"
+  "packageManager": "yarn@4.5.0"
 }

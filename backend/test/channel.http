@@ -1,0 +1,46 @@
+### GET regular channel data
+GET http://localhost:4949/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ
+Accept: application/json
+
+### GET regular channel data (invidious)
+GET https://nyc1.iv.ggtyler.dev/api/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ
+Accept: application/json
+
+
+### GET related channels
+GET http://localhost:4949/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ/channels
+Accept: application/json
+
+### GET related channels (invidious)
+GET https://nyc1.iv.ggtyler.dev/api/v1/channels/UC4rqhyiTs7XyuODcECvuiiQ/channels
+Accept: application/json
+
+
+### GET channel playlists
+GET http://localhost:4949/v1/channels/UCXuqSBlHAE6Xw-yeJA0Tunw/playlists
+Accept: application/json
+
+> {% client.global.set("continuation", response.body["continuation"]); %}
+
+### GET channel playlists (invidious)
+GET https://nyc1.iv.ggtyler.dev/api/v1/channels/UCXuqSBlHAE6Xw-yeJA0Tunw/playlists
+Accept: application/json
+
+> {% client.global.set("iv_continuation", response.body["continuation"]); %}
+
+
+### GET channel playlists (sort by date)
+GET http://localhost:4949/v1/channels/UCXuqSBlHAE6Xw-yeJA0Tunw/playlists?sort_by=newest
+Accept: application/json
+
+### GET channel playlists (sort by date) (invidious)
+GET https://nyc1.iv.ggtyler.dev/api/v1/channels/UCXuqSBlHAE6Xw-yeJA0Tunw/playlists?sort_by=newest
+Accept: application/json
+
+
+### GET channel playlists (w/ continuation)
+GET http://localhost:4949/v1/channels/UCXuqSBlHAE6Xw-yeJA0Tunw/playlists?continuation={{continuation}}
+Accept: application/json
+
+### GET channel playlists (w/ continuation) (invidious)
+GET https://nyc1.iv.ggtyler.dev/api/v1/channels/UCXuqSBlHAE6Xw-yeJA0Tunw/playlists?continuation={{iv_continuation}}

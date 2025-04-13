@@ -1,0 +1,21 @@
+services:
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: frontend
+    restart: unless-stopped
+    ports:
+      - "4321:4321"
+    volumes:
+      - ./config.ts:/app/config.ts
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      target: backend
+    restart: unless-stopped
+    ports:
+      - "4949:4949"
+    volumes:
+      - ./config.ts:/app/config.ts
