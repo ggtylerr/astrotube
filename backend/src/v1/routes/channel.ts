@@ -8,7 +8,7 @@ import {
     formatNum,
     obj
 } from "../../lib/output";
-import { error as logErr } from "../../lib/log";
+import {error as logErr} from "../../lib/log";
 import type {AuthorStub} from "output";
 
 export default async (path: string[], query: {}) => {
@@ -51,7 +51,8 @@ export default async (path: string[], query: {}) => {
         } else if (channel.header.is(YTNodes.PageHeader)) {
             extras.banners = channel.header.content.banner.image;
             extras.subCount = formatNum(channel.header.content.metadata.metadata_rows[1].metadata_parts[0].text.toString());
-            // TODO authorVerified if possible
+            const badges = channel.memo.get("MetadataBadge");
+            extras.authorVerified = badges.length > 0 ? badges[0].as(YTNodes.MetadataBadge).tooltip === "Verified" : false;
         } else return error("Channel header type not supported");
         // About info (TODO: Add config option to disable this so this doesn't need to do 2 requests)
         if (about.is(YTNodes.AboutChannel)) {
@@ -61,7 +62,7 @@ export default async (path: string[], query: {}) => {
             extras.descriptionHtml = formatHtml(extras.description) // TODO: See if there's a proper way to get HTML
         } else {
             extras.totalViews = formatNum(about.view_count.toString());
-            extras.joined = formatDate(about.joined_date.toString().replace("Joined ","")); // TODO: Check if this is the same kind of string vused in the AboutChannel node
+            extras.joined = formatDate(about.joined_date.toString().replace("Joined ","")); // TODO: Check if this is the same kind of string used in the AboutChannel node
             extras.description = about.description.toString();
             extras.descriptionHtml = about.description.toHTML();
         }
