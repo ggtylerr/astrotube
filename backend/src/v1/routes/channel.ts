@@ -1,4 +1,4 @@
-import {YT, YTNodes} from "youtubei.js";
+import {AppendContinuationItemsAction, IBrowseResponse, ParsedResponse, YT, YTNodes} from "youtubei.js";
 import {
     channelRelated,
     channelVideo,
@@ -8,10 +8,10 @@ import {
     formatNum,
     obj
 } from "../../lib/output";
-import { debug, error as logErr } from "../../lib/log";
+import { error as logErr } from "../../lib/log";
 import type {AuthorStub} from "output";
 
-export default async (path: string[]) => {
+export default async (path: string[], query: {}) => {
     if (path.length < 3) {
         return error("Invalid request, please provide a channel ID");
     }
@@ -20,7 +20,7 @@ export default async (path: string[]) => {
             case "channels":
                 return getChannels(path);
             case "playlists":
-                return getPlaylists(path);
+                return getPlaylists(path, query);
             default:
                 return error("Invalid request, unknown argument");
         }
@@ -137,49 +137,86 @@ export async function getChannels(path: string[]) {
     }
 }
 
- export async function getPlaylists(path: string[]) {
-    // TODO: Implement continuation
-    // TODO: Implement sorting
+ export async function getPlaylists(path: string[], query: {}) {
     if (path.length < 3) {
         return error("Invalid request, please provide a channel ID");
     }
     try {
-        const channel: YT.Channel = await global.client.getChannel(path[2]);
-        const initTab = await channel.getPlaylists();
-        const tab = await initTab.applySort("Last video added");
-        let continuation = undefined;
-        if (tab.has_continuation) {
-            continuation = tab.memo.getType(YTNodes.ContinuationItem)[0].endpoint.payload.token;
-        }
-        const channelInfo = {
-            name: channel.metadata.title,
-            id: channel.metadata.external_id,
-            url: `/channel/${channel.metadata.external_id}`,
-            is_verified: (channel.header.is(YTNodes.C4TabbedHeader)) ? channel.header.author.is_verified : false
-        };
-        let badges = tab.memo.getType(YTNodes.ThumbnailOverlayBadgeView);
-        let playlists = [];
-        for (let i = 0; i < tab.playlists.length; i++) {
-            let playlist = tab.playlists[i];
-            if (playlist.is(YTNodes.LockupView)) {
-                playlists.push({
-                    type: "playlist",
-                    title: playlist.metadata.title.toString(),
-                    playlistId: playlist.content_id,
-                    playlistThumbnail: playlist.content_image.as(YTNodes.CollectionThumbnailView).primary_thumbnail.image[0].url,
-                    author: channelInfo.name,
-                    authorId: channelInfo.id,
-                    authorUrl: channelInfo.url,
-                    authorVerified: channelInfo.is_verified,
-                    videoCount: formatNum(badges[i].badges[0].text),
-                    videos: []
-                })
+        if (query["continuation"]) {
+            const res: ParsedResponse<IBrowseResponse> = await global.client.actions.execute("browse", {
+                token: query["continuation"],
+                request: "CONTINUATION_REQUEST_TYPE_BROWSE",
+                parse: true
+            });
+            const channel = res.microformat.as(YTNodes.MicroformatData);
+            const playlists = res.on_response_received_actions.first().as(AppendContinuationItemsAction).contents;
+            // Build + output playlist array
+            let playlistsArray = [];
+            for (let playlist of playlists) {
+                if (playlist.is(YTNodes.GridPlaylist)) {
+                    playlistsArray.push({
+                        type: "playlist",
+                        title: playlist.title.runs[0].text,
+                        playlistId: playlist.id,
+                        playlistThumbnail: playlist.thumbnails[0].url,
+                        author: channel.title,
+                        authorId: channel.url_canonical.replace(/https:\/\/www.youtube.com\/channel\//, ""),
+                        authorUrl: channel.url_canonical.replace(/https:\/\/www.youtube.com/,""),
+                        authorVerified: playlist.badges[0].as(YTNodes.MetadataBadge).tooltip === "Verified",
+                        videoCount: formatNum(playlist.video_count.runs[0].text),
+                        videos: []
+                    });
+                }
             }
+            const cont = playlists.firstOfType(YTNodes.ContinuationItem);
+            return obj({
+                playlists: playlistsArray,
+                continuation: cont ? cont.endpoint.payload.token : undefined,
+            });
+        } else {
+            const channel: YT.Channel = await global.client.getChannel(path[2]);
+            const initTab = await channel.getPlaylists();
+            // Apply sorting
+            // Note: oldest is mentioned in the invidious docs but it doesn't exist in yt anymore
+            const sort = query["sort_by"] === "newest" ? "Date added (newest)" : "Last video added";
+            const tab = await initTab.applySort(sort);
+            // Fetch continuation
+            let continuation = undefined;
+            if (tab.has_continuation)
+                continuation = tab.memo.getType(YTNodes.ContinuationItem)[0].endpoint.payload.token;
+            // Fetch channel info
+            const channelInfo = {
+                name: channel.metadata.title,
+                id: channel.metadata.external_id,
+                url: `/channel/${channel.metadata.external_id}`,
+                is_verified: (channel.header.is(YTNodes.C4TabbedHeader)) ? channel.header.author.is_verified : false
+            };
+            // Get video count
+            let badges = tab.memo.getType(YTNodes.ThumbnailOverlayBadgeView);
+            // Build + output playlist array
+            let playlists = [];
+            for (let i = 0; i < tab.playlists.length; i++) {
+                let playlist = tab.playlists[i];
+                if (playlist.is(YTNodes.LockupView)) {
+                    playlists.push({
+                        type: "playlist",
+                        title: playlist.metadata.title.toString(),
+                        playlistId: playlist.content_id,
+                        playlistThumbnail: playlist.content_image.as(YTNodes.CollectionThumbnailView).primary_thumbnail.image[0].url,
+                        author: channelInfo.name,
+                        authorId: channelInfo.id,
+                        authorUrl: channelInfo.url,
+                        authorVerified: channelInfo.is_verified,
+                        videoCount: formatNum(badges[i].badges[0].text),
+                        videos: []
+                    });
+                }
+            }
+            return obj({
+                playlists: playlists,
+                continuation: continuation
+            });
         }
-        return obj({
-            playlists: playlists,
-            continuation: continuation
-        })
     } catch (e) {
         logErr(e.stack);
         return error(e.message);
